@@ -2,20 +2,38 @@ import express from 'express';
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from 'mongoose';
-import 
+import postRoutes from "./routes/post.routes.js";  // ✅ must include .js
+import userRoutes from "./routes/user.routes.js";
 
 dotenv.config();
 
 const app = express();
 
+app.use(express.json());
 app.use(cors());
 
-app.use(express.json());
+
+app.use(userRoutes);
+
+
 
 const start = async () => {
-    const connectDB = await mongoose.connect("mongodb+srv://Subrat003:wRh7mGB98M8zGJCN@cluster0.bwpjyud.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("✅ Connected to MongoDB");
+  } 
+  catch (error) {
+    console.error("❌ MongoDB connection failed:", error.message);
+    process.exit(1); // Exit the app if DB connection fails
+  }
+};
 
-}
+start();
+
+app.use(postRoutes);
 
 app.get("/new", (req, res) => {
     res.send("this is my next app");
@@ -26,5 +44,5 @@ app.listen(9090, () => {
 });
 
 
-start();
+
 

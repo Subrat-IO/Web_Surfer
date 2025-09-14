@@ -20,12 +20,13 @@ export const register = async (req, res) => {
             email,
             password: hashedPassword,
             username,
+            profilepicture: "",
         });
 
 
         await newUser.save();
 
-        const profile = new Profile({ userId: newUser._id });
+
 
         return res.json({ message: "User Registered Successfully" });
 
@@ -40,29 +41,48 @@ export const register = async (req, res) => {
 
 
 export const login = async (req, res) => {
-
     try {
         const { email, password } = req.body;
 
-        if (!email || !password) return res.status(400).json({ message: "All Fields are required" });
-
-        const user = await User.findOne({
-            email
-        });
-        if (!user) return res.status(404).json({ message: "user does not exist" });
+        const user = await User.findOne({ email });
+        if (!user) return res.status(404).json({ message: "User does not exist" });
 
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ message: "Invalid Password Try Again" });
+        if (!isMatch) return res.status(400).json({ message: "Invalid password" });
 
         const token = crypto.randomBytes(32).toString("hex");
 
-        await user.updateOne({ _id: user._id }, { token });
+        // ✅ Save token correctly
+        user.token = token;
+        await user.save();
 
         return res.status(200).json({ message: "Login successful", token });
     } catch (error) {
-
-        console.error(error);
-        return res.status(500).json({ message: "Server Error" });
+        return res.status(500).json({ message: "Server error" });
     }
+};
 
+
+export const uploadProfilePicture = async (req, res) => {
+    const { token } = req.body;
+
+    try {
+        const user = await User.findOne({ token: token });
+
+        if (!user) {
+            return res.status(404).json({ message: "user not found" });
+        }
+
+        user.profilePicture = req.file.filename;
+
+        await user.save();
+
+        return res.json({ message: "profile Picture Update" });
+
+
+
+    }
+    catch (error) {
+        return res.json(500).json({ message: error.message })
+    }
 }

@@ -1,12 +1,11 @@
-
 POST /login HTTP/1.1
 Host: localhost:9090
 Content-Type: application/json
 Content-Length: 57
 
 {
-  "email":"subrat3232@gmail.com",
-  "username": "dasfdddsdsd",
-  "password": "fdsf"
+  
+  "email":"subrat32adsdsdsfdfsdcdsdsdfsdsdsdfsdc@gmail.com",
+  "username": "dadadsadsfsdfsdfsdsfdsfdsdsdsdsdd",
+  "password": "dsdsdadssadssdfdfsdsdfdfsfddsdsfssdsf"
 }
-

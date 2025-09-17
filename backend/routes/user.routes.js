@@ -1,9 +1,8 @@
 import { activeCheck } from "../controllers/post.controller.js";
-import { login, register } from "../controllers/user.controller.js";
+import { login, register, updateProfileData, UserProfile } from "../controllers/user.controller.js";
 import { Router } from "express";
 import multer from "multer";
-import { uploadProfilePicture } from "../controllers/user.controller.js";
-
+import { uploadProfilePicture , updateUserProfile   } from "../controllers/user.controller.js";
 
 const router = Router();
 
@@ -20,11 +19,15 @@ const storage =  multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.route("/update_profile_picture")
-.post(upload.single('profile_picture'), uploadProfilePicture); 
+.post(upload.single('profile_picture'), updateUserProfile); 
 
 
 router.route("/register").post(register);
 router.route("/login").post(login);
+router.route("/user_update").post(updateUserProfile);
+router.route("/get_user_and_profile").get(UserProfile);
+router.route("/update_profile_data").post(updateProfileData);
 
 export default router;
-
+ 
+ 

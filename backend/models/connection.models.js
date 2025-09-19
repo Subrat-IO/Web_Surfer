@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { ref } from "pdfkit";
-import User from "./user.models";
+import User from "../models/user.models";
+
 const connectionRequestSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,

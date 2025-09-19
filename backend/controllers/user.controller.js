@@ -1,11 +1,14 @@
 import mongoose from "mongoose";
 import User from "../models/user.models.js";
+
 import bcrypt, { hash } from "bcrypt";
 import crypto from "crypto";
 import Profile from "../models/profile.models.js";
 import { profile } from "console";
 import PDFDocument from 'pdfkit';
 import fs from "fs";
+
+import connectionRequest from "../models/connection.models.js";
 
 
 
@@ -300,3 +303,34 @@ export const download_profile = async (req, res) => {
     return res.status(500).json({ error: "Failed to generate PDF" });
   }
 };
+
+
+export const sendRequest = async (req,res) =>{
+  
+  const {token, connectionId} = req.body;
+
+  try{
+    const user = await User.findOne({token});
+
+    if(!user){
+      return res.status(404).json({message:"user not found"});
+    
+    }
+
+    const connectionUser = await User.findOne({_id: connectionId});
+
+    if(!connectionUser){
+      return res.status(404).json({message:"connection user not found"});
+    }
+
+    const existingRequest = await connectionRequest.findOne({
+      userId :user._id,
+      connectionId: connectionUser._id
+    }
+  )
+
+  }
+  catch(error){
+
+  }
+ }

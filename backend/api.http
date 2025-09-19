@@ -1,33 +1,18 @@
-### Update Profile
-POST http://localhost:9090/update_profile_data
+# ## Update Profile
+# POST http://localhost:9090/login
+# Content-Type: application/json
+
+# {
+# "username":"sdosddssssjd",
+# "name":"osdjosddssssd",
+# "email":"sdljsddssssd@gmail.com",
+# "password":"aasddsssa"
+# }
+
+GET http://localhost:9090/get_user_and_profile
 Content-Type: application/json
 
 {
-  "token": "8861f5e919e24f53c7c4c56ae81b44083eeae4e653b9cfc1b384285ce74ba200",
-  "bio": "Full Stack Developer specializing in MERN stack.",
-  "currentPost": "Software Engineer at XYZ",
-  "postWork": [
-    {
-      "company": "ABC Corp",
-      "position": "Frontend Developer",
-      "years": "2022-2024"
-    },
-    {
-      "company": "XYZ Pvt Ltd",
-      "position": "Software Engineer",
-      "years": "2024-Present"
-    }
-  ],
-  "education": [
-    {
-      "school": "NIT Rourkela",
-      "degree": "B.Tech",
-      "fieldOfStudy": "Computer Science"
-    },
-    {
-      "school": "DAV Public School",
-      "degree": "High School",
-      "fieldOfStudy": "Science"
-    }
-  ]
+  "token": "eb2fdd41631675cd8aad10ebe86c6b77e2f7bb7be57e6f803178b03f224cc78a"
+
 }

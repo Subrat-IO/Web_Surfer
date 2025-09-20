@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
-import { ref } from "pdfkit";
-import { stringAt } from "pdfkit/js/data";
-import User from "./user.models";
+
 
 const PostSchema = mongoose.Schema({
     userId: {

@@ -1,18 +1,18 @@
-# ## Update Profile
-# POST http://localhost:9090/login
-# Content-Type: application/json
-
-# {
-# "username":"sdosddssssjd",
-# "name":"osdjosddssssd",
-# "email":"sdljsddssssd@gmail.com",
-# "password":"aasddsssa"
-# }
-
-GET http://localhost:9090/get_user_and_profile
+## Update Profile
+POST http://localhost:9090/login
 Content-Type: application/json
 
 {
-  "token": "eb2fdd41631675cd8aad10ebe86c6b77e2f7bb7be57e6f803178b03f224cc78a"
-
+"username":"sdosddssssjd",
+"name":"osdjosddssssd",
+"email":"sdljsddssssd@gmail.com",
+"password":"aasddsssa"
 }
+
+# GET http://localhost:9090/get_user_and_profile
+# Content-Type: application/json
+
+# {
+#   "token": "eb2fdd41631675cd8aad10ebe86c6b77e2f7bb7be57e6f803178b03f224cc78a"
+
+# }

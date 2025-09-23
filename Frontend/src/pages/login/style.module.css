@@ -1,0 +1,120 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90svh;
+    width: 100%;
+}
+
+.cardContainer {
+    height: 80vh;
+    width: 80vw;
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    color: #0b0707;
+    font-size: 1.5rem;
+    font-weight: bold;
+
+    /* Glassmorphism Effect */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    /* Clean single shadow */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.cardContainer_left {
+    flex: 0.6;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.cardContainer_right {
+    flex: 0.4;
+    background: linear-gradient(135deg, #1e031ece, #bc7fc2);
+    /* smooth gradient */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardLeftheading {
+    font-size: 2.3rem;
+    font-weight: 500;
+}
+
+.inputRow {
+    display: flex;
+    gap: 1.2rem;
+}
+
+.inputField {
+    padding-inline: 1.3rem;
+    padding-block: 1rem;
+    outline: none;
+    border-radius: 10px;
+    border: 1px solid grey;
+    margin-top: 1rem;
+    width: 100%;
+    
+
+}
+
+.inputContainers {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1.3rem;
+    max-width: 400px;
+    margin: 0 auto;
+    
+}
+/* ++++++++++++++++Button SignUp CSS++++++++++++++++++++ */
+.buttonWithOutline {
+  margin-top: 1rem;
+  padding: 0.5rem 2rem; /* more width for better look */
+  border: 1px solid green;
+  border-radius: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: linear-gradient(135deg, rgb(39, 99, 131), #640e64ce);
+  color: white;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  transform: translateX(0); /* initial state */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover effect */
+.buttonWithOutline:hover {
+  transform: translateY(-3px) scale(1.05); /* subtle lift & scale */
+  border-color: rgb(43, 138, 43);
+  background: linear-gradient(135deg, #493d3d, #1e8f2cce);
+}
+
+/* Optional: glowing effect */
+.buttonWithOutline::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.buttonWithOutline:hover::after {
+  opacity: 1;
+}
+
+

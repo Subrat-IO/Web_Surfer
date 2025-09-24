@@ -89,11 +89,18 @@ export const register = async (req, res) => {
   try {
     const { name, email, username, password } = req.body;
 
-    if (!name || !email || !password || !username) return res.status(400)({ message: "All fields required to be filled" });
+    if (!name || !email || !password || !username) {
+      // Send status + message safely
+      res.status(400);
+      return res.json({ message: "All fields required to be filled" });
+    }
+
     const user = await User.findOne({ email });
+    if (user) {
+      res.status(400);
+      return res.json({ message: "User Already Exists" });
+    }
 
-
-    if (user) return res.status(400).json({ message: "User Already Exists" });
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
       name,
@@ -103,22 +110,19 @@ export const register = async (req, res) => {
       profilepicture: "default.jpg",
     });
 
-
     await newUser.save();
 
-    const profile = new Profile({ userId: newUser._id }); // Create Profile
+    const profile = new Profile({ userId: newUser._id });
     await profile.save();
 
+    // Success
+    res.status(201);
     return res.json({ message: "User Registered Successfully" });
-
-
+  } catch (err) {
+    res.status(500);
+    return res.json({ message: err.message });
   }
-
-
-  catch (err) {
-    return res.status(500).json({ message: err.message });
-  }
-}
+};
 
 
 
@@ -127,22 +131,30 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-    if (!user) return res.status(404).json({ message: "User does not exist" });
+    if (!user) {
+      res.status(404);
+      return res.json({ message: "User does not exist" });
+    }
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid password" });
+    if (!isMatch) {
+      res.status(400);
+      return res.json({ message: "Invalid password" });
+    }
 
     const token = crypto.randomBytes(32).toString("hex");
-
-    // ✅ Save token correctly
     user.token = token;
     await user.save();
 
-    return res.status(200).json({ message: "Login successful", token });
-  } catch (error) {
-    return res.status(500).json({ message: "Server error" });
+    res.status(200);
+    return res.json({ message: "Login successful", token });
+  } catch (err) {
+    res.status(500);
+    return res.json({ message: "Server error" });
   }
 };
+
+
 
 
 export const uploadProfilePicture = async (req, res) => {

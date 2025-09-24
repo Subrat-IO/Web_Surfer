@@ -1,83 +1,93 @@
+/* ================= Container ================= */
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 90svh;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90svh;
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
 }
 
+/* ================= Card ================= */
 .cardContainer {
-    height: 80vh;
-    width: 80vw;
-    border-radius: 15px;
-    overflow: hidden;
-    display: flex;
-    color: #0b0707;
-    font-size: 1.5rem;
-    font-weight: bold;
+  height: 80vh;
+  width: 80vw;
+  border-radius: 15px;
+  overflow: hidden;
+  display: flex;
+  color: #0b0707;
+  font-size: 1.5rem;
+  font-weight: bold;
 
-    /* Glassmorphism Effect */
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+  /* Glassmorphism Effect */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 
-    /* Clean single shadow */
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  /* Shadow */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 }
 
+/* ================= Left Side ================= */
 .cardContainer_left {
-    flex: 0.6;
-    padding: 2rem;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+  flex: 0.6;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
 }
 
+/* ================= Right Side ================= */
 .cardContainer_right {
-    flex: 0.4;
-    background: linear-gradient(135deg, #1e031ece, #bc7fc2);
-    /* smooth gradient */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  flex: 0.4;
+  background: linear-gradient(135deg, #1e031ece, #bc7fc2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.6s ease-in-out;
 }
 
+/* ================= Headings ================= */
 .cardLeftheading {
-    font-size: 2.3rem;
-    font-weight: 500;
+  font-size: 2.3rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
 }
 
+/* ================= Input Row ================= */
 .inputRow {
-    display: flex;
-    gap: 1.2rem;
+  display: flex;
+  gap: 1.2rem;
+  width: 100%;
 }
 
 .inputField {
-    padding-inline: 1.3rem;
-    padding-block: 1rem;
-    outline: none;
-    border-radius: 10px;
-    border: 1px solid grey;
-    margin-top: 1rem;
-    width: 100%;
-    
-
+  padding: 1rem 1.3rem;
+  outline: none;
+  border-radius: 10px;
+  border: 1px solid grey;
+  margin-top: 1rem;
+  width: 100%;
+  font-size: 1rem;
 }
 
+/* ================= Input Container ================= */
 .inputContainers {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 1.3rem;
-    max-width: 400px;
-    margin: 0 auto;
-    
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 1.3rem;
+  max-width: 400px;
+  margin: 0 auto;
 }
-/* ++++++++++++++++Button SignUp CSS++++++++++++++++++++ */
+
+/* ================= Button ================= */
 .buttonWithOutline {
   margin-top: 1rem;
-  padding: 0.5rem 2rem; /* more width for better look */
+  padding: 0.5rem 2rem;
   border: 1px solid green;
   border-radius: 2rem;
   display: flex;
@@ -88,19 +98,18 @@
   color: white;
   font-weight: bold;
   transition: all 0.3s ease;
-  transform: translateX(0); /* initial state */
+  transform: translateX(0);
   position: relative;
   overflow: hidden;
 }
 
-/* Hover effect */
+/* Button Hover */
 .buttonWithOutline:hover {
-  transform: translateY(-3px) scale(1.05); /* subtle lift & scale */
+  transform: translateY(-3px) scale(1.05);
   border-color: rgb(43, 138, 43);
   background: linear-gradient(135deg, #493d3d, #1e8f2cce);
 }
 
-/* Optional: glowing effect */
 .buttonWithOutline::after {
   content: '';
   position: absolute;
@@ -108,7 +117,7 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
   opacity: 0;
   transition: opacity 0.5s;
 }
@@ -117,4 +126,167 @@
   opacity: 1;
 }
 
+/* ================= Slider Container ================= */
+.formSlider {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
 
+/* ================= Sliding Wrapper ================= */
+.formSlide {
+  width: 200%;
+  display: flex;
+  transition: transform 0.6s ease-in-out;
+  height: 100%;
+}
+
+/* Each form content */
+.formSlide > .formContent {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 1rem;
+}
+
+/* ================= Slide States ================= */
+.loginActive {
+  transform: translateX(0%);
+}
+
+.registerActive {
+  transform: translateX(-50%);
+}
+
+/* Right panel inner container */
+.cardContainer_right > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  gap: 1rem; /* space between image and heading */
+  color: white;
+}
+
+/* Image inside right panel */
+.imageContainer_right {
+  max-width: 150px; /* adjust size as needed */
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: contain;
+  animation: float 3s ease-in-out infinite; /* optional floating effect */
+}
+
+/* Heading inside right panel */
+.cardContainer_right h3 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Optional floating animation for image */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Mobile (stack them up and down) */
+@media (max-width: 475px) {
+  .cardContainer {
+    flex-direction: column; /* stack vertically */
+    height: auto;           /* let it grow naturally */
+    width: 90%;
+    height: 60svh;
+    
+
+  }
+
+  .cardContainer_right {
+    order: 1;               /* ensure image is on top */
+    width: 100%;
+    font-size: 12px;
+    height: 30%;
+    background:transparent;
+    margin-top: -2.5rem;
+
+    flex: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: -3rem;
+  }
+  .cardContainer_right h3 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 0;
+  color: #1e031ece;
+    margin-bottom: -1.5rem;
+
+}
+  .cardContainer_left {
+    order: 2;               /* form comes below */
+    width: 100%;
+font-size: 12px;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+   
+    padding: 1.5rem;
+    height: 70%;
+    margin-bottom: -3rem;
+
+  }
+  .inputContainers{
+    margin-bottom: 2rem;
+    margin-top: -1.2rem;
+  }
+}
+
+
+
+
+
+/*  */
+@media (max-width: 900px) {
+  .cardContainer {
+    flex-direction: column; 
+    height: auto;          
+    width: 70%;
+  }
+
+  .cardContainer_right {
+    order: 1;               
+    width: 100%;
+    flex: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .cardContainer_left {
+    order: 2;              
+    width: 100%;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+  }
+}

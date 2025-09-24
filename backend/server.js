@@ -2,7 +2,7 @@ import express from 'express';
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from 'mongoose';
-import postRoutes from "./routes/post.routes.js";  // ✅ must include .js
+import postRoutes from "./routes/post.routes.js";  
 import userRoutes from "./routes/user.routes.js";
 
 dotenv.config();

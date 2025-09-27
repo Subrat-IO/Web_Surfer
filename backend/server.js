@@ -9,40 +9,41 @@ dotenv.config();
 
 const app = express();
 
+// Middlewares
 app.use(express.json());
 app.use(cors());
+
+// Routes
 app.use(postRoutes);
 app.use(userRoutes);
 
-app.use(express.static("uploads"));
+// Serve uploaded files
+app.use("/uploads", express.static("uploads"));
 
+// Test route
+app.get("/new", (req, res) => {
+  res.send("this is my next app");
+});
 
-
-
+// MongoDB connection
 const start = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
-    });
+    await mongoose.connect(process.env.MONGO_URI);
     console.log("✅ Connected to MongoDB");
-  }
-  catch (error) {
+  } catch (error) {
     console.error("❌ MongoDB connection failed:", error.message);
-    process.exit(1); // Exit the app if DB connection fails
+    process.exit(1);
   }
 };
 
 start();
 
-app.use(postRoutes);
-
-app.get("/new", (req, res) => {
-  res.send("this is my next app");
-})
-
-app.listen(9090, () => {
-  console.log("server running on 9090");
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Internal Server Error" });
 });
 
-
-
-
+app.listen(9090, () => {
+  console.log("Server running on port 9090");
+});

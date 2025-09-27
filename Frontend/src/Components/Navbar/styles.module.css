@@ -27,7 +27,31 @@
   border-radius: 20px;
   background: linear-gradient(135deg, #ff6ec4, #7873f5);
   animation: breathe 2.5s infinite alternate ease-in-out;
+}
 
+.ProfileContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #f5f7fa;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+}
 
+.ProfileContainer p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #333;
+}
 
+.ProfileContainer p:first-child {
+  font-weight: 600;
+  color: #0070f3; /* highlight the user's name */
+}
+
+.profileImage {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
 }

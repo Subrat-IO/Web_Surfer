@@ -1,0 +1,210 @@
+/* Main Container */
+.container {
+  display: flex;
+  height: 100vh;
+  background-color: #fff;
+  gap: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Inner Home Layout */
+.homeContainer {
+  display: flex;
+  flex: 1;
+  gap: 0;
+  overflow: hidden;
+}
+
+/* Left Sidebar */
+.leftBar {
+  flex: 0 0 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: 1.2rem;
+  background-color: #fafafa;
+  border-right: 1px solid #eee;
+  transition: all 0.3s ease;
+}
+
+/* Menu Item */
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  cursor: pointer;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.menuItem:hover {
+  background: rgba(215, 140, 255, 0.1);
+  transform: translateX(4px);
+}
+
+/* Icon */
+.icon {
+  width: 28px;
+  height: 28px;
+  stroke: #4d23a2;
+  transition: transform 0.3s ease, stroke 0.3s ease;
+}
+
+.menuItem:hover .icon {
+  transform: scale(1.15);
+  stroke: #d78cff;
+}
+
+/* Menu Text */
+.menuText {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.menuItem:hover .menuText {
+  transform: scale(1.1);
+  color: #4d23a2;
+}
+
+/* Main Feed */
+.feedContainer {
+  flex: 1;
+  background-color: #fff;
+  overflow-y: auto;
+
+  /* Center feed neatly */
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  scrollbar-width: thin;
+  scrollbar-color: #d78cff #f0f0f0;
+}
+
+/* Custom scrollbar */
+.feedContainer::-webkit-scrollbar {
+  width: 8px;
+}
+.feedContainer::-webkit-scrollbar-thumb {
+  background: #d78cff;
+  border-radius: 6px;
+}
+.feedContainer::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+/* Posts inside feed */
+.singlePost {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  padding: 1rem 1.2rem;
+  width: 100%;
+  max-width: 600px; /* Twitter-like feed column */
+  margin-bottom: 1.5rem;
+}
+
+/* Right Sidebar */
+.extraContainer {
+  flex: 0 0 250px;
+  padding: 1.2rem;
+  background-color: #fafafa;
+  border-left: 1px solid #eee;
+  transition: all 0.3s ease;
+}
+
+/* ===================== Responsive Layout ===================== */
+
+/* Tablet (shrink left, hide right) */
+@media (max-width: 1024px) {
+  .leftBar {
+    flex: 0 0 200px;
+    padding: 1rem;
+  }
+
+  .extraContainer {
+    flex: 0 0 200px;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .leftBar {
+    flex: 0 0 70px; /* collapse to icons */
+    padding: 0.8rem;
+    align-items: center;
+  }
+
+  .menuText {
+    display: none; /* hide labels */
+  }
+
+  .extraContainer {
+    display: none; /* hide right bar */
+  }
+
+  .feedContainer {
+    padding: 1rem 0;
+  }
+
+  .singlePost {
+    max-width: 100%; /* full width feed */
+    border-radius: 0;
+  }
+}
+
+/* Mobile (bottom nav bar) */
+@media (max-width: 480px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .homeContainer {
+    flex-direction: column;
+  }
+
+  .feedContainer {
+    flex: 1;
+    padding: 0.5rem 0;
+    align-items: stretch; /* posts take full width */
+  }
+
+  .singlePost {
+    max-width: 100%;
+    border-radius: 0;
+  }
+
+  /* Turn leftBar into bottom nav */
+  .leftBar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #eee;
+    border-right: none;
+    background-color: #fafafa;
+    padding: 0.5rem;
+    z-index: 1000;
+  }
+
+  .menuItem {
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0;
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+  }
+}

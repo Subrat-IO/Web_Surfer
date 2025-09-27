@@ -1,12 +1,10 @@
 ## Update Profile
-POST http://localhost:9090/login
+POST   http://localhost:9090/login
 Content-Type: application/json
 
 {
-"username":"sdosddssssjd",
-"name":"osdjosddssssd",
-"email":"sdljsddssssd@gmail.com",
-"password":"aasddsssa"
+"email":"subratsethi501@gmail.com",
+"password":"password"
 }
 
 # GET http://localhost:9090/get_user_and_profile

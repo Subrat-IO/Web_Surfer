@@ -38,7 +38,7 @@ export const createPost = async (req, res) => {
 }
 
 
-export const getAllPOsts = async (req, res) => {
+export const getAllPosts = async (req, res) => {
     try {
         const posts = await Post.find().populate('userId', 'name username email profilePicture')
         return res.json({ posts });
@@ -70,7 +70,7 @@ export const deletePost = async (req, res) => {
             return res.status(401).json({ message: "Unauthorised Token" });
         }
 
-        await Post.deletePost({ _id: post_id });
+        await Post.deleteOne({ _id: post_id });
 
         return res.status(500).json({ message: "Post Deleted" });
     }

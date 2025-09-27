@@ -11,6 +11,11 @@ import fs from "fs";
 import connectionRequest from "../models/connection.models.js";
 import { request } from "http";
 
+import express from 'express';
+const app = express();
+
+// This is mandatory to parse JSON body
+app.use(express.json());
 
 
 export const convertUserDataTOPDF = (userData) => {
@@ -224,8 +229,9 @@ export const updateUserProfile = async (req, res) => {
 
 export const UserProfile = async (req, res) => {
   try {
-    const { token } = req.body;
+    const { token } = req.query;
 
+   
     if (!token) return res.status(400).json({ message: "Token is required" });
 
 
@@ -246,7 +252,8 @@ export const UserProfile = async (req, res) => {
 
 
     return res.json(userProfile);
-  } catch (error) {
+  }
+   catch (error) {
     console.error(error);
     return res.status(500).json({ message: error.message });
   }

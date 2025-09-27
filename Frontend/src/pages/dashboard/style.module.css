@@ -1,0 +1,295 @@
+/* Dashboard Container */
+.dashboardContainer {
+  max-width: 700px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 0 1rem; /* Add padding for small screens */
+}
+
+/* Create Post Card */
+.createPostCard {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.createPostCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* Current User */
+.currentUser {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profileImage {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #d78cff;
+}
+
+.userName {
+  font-weight: bold;
+  color: rgb(61, 8, 61);
+  font-size: 1.2rem;
+}
+
+.name {
+  color: rgb(23, 72, 4);
+}
+
+/* Textarea */
+.textarea {
+  width: 100%;
+  min-height: 90px;
+  padding: 0.8rem;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  resize: vertical;
+  font-size: 1rem;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: #d78cff;
+  box-shadow: 0 0 0 3px rgba(215, 140, 255, 0.3);
+}
+
+/* Post Actions Top */
+.postActionsTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+/* Floating Action Button */
+.Fab {
+  height: 40px;
+  width: 40px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, violet, #d78cff);
+  color: #4d23a2;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.Fab:hover {
+  background: linear-gradient(135deg, #d78cff, violet);
+  transform: scale(1.12);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.Fab:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* File Button */
+.FileButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 2rem;
+  background: linear-gradient(135deg, violet, #d78cff);
+  color: #4d23a2;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+}
+
+.FileButton:hover {
+  background: linear-gradient(135deg, #d78cff, violet);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.FileButton:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.FabText {
+  color: #4d23a2;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* Posts */
+.postContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.singlePost {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.postHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.postTime {
+  font-size: 0.85rem;
+  color: gray;
+}
+
+.postBody {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #333;
+}
+
+.postMedia {
+  width: 100%;
+  max-height: 450px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Post Actions */
+.postActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.likeButton,
+.commentButton {
+  background: #f8f8f8;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.likeButton:hover,
+.commentButton:hover {
+  background: #ececec;
+  transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboardContainer {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+
+  .profileImage {
+    width: 44px;
+    height: 44px;
+  }
+
+  .userName {
+    font-size: 1.1rem;
+  }
+
+  .textarea {
+    font-size: 0.95rem;
+  }
+
+  .FileButton {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .Fab {
+    height: 34px;
+    width: 34px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .createPostCard,
+  .singlePost {
+    padding: 0.8rem 1rem;
+  }
+
+  .userName {
+    font-size: 1rem;
+  }
+
+  .textarea {
+    font-size: 0.9rem;
+    min-height: 70px;
+  }
+
+  .FileButton {
+    padding: 0.4rem 0.9rem;
+  }
+}
+
+
+.userContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* space between name and delete button */
+}
+
+.userName {
+  font-weight: 600;
+  font-size: 15px;
+  color: #333;
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  
+  color: #e74c3c;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.deleteButton:hover {
+  background: rgba(231, 76, 60, 0.1);
+  color: #c0392b;
+}

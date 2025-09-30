@@ -1,14 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { deletePost,getAllPosts } from "@/config/redux/actions/postAction";
-
+import { deletePost, getAllPosts, postComment } from "@/config/redux/actions/postAction";
+import { likePostAction } from "@/config/redux/actions/postAction";
 const initialState = {
-  posts: [],           // all posts
+  posts: [],
+  comments: [],          // all posts
   isError: false,
   isSuccess: false,
   isLoading: false,
   postFetched: false,
   message: "",
-  post_Id: "",          // optional: for single post actions
+  postId: "",          // optional: for single post actions
 };
 
 const postSlice = createSlice({
@@ -42,8 +43,24 @@ const postSlice = createSlice({
         state.isSuccess = false;
         state.message = action.payload.posts || "Failed to fetch posts";
       })
-     
- 
+    builder.addCase(likePostAction.fulfilled, (state, action) => {
+      const { post_id, likes } = action.payload;
+      const postIndex = state.posts.findIndex(post => post._id === post_id);
+      if (postIndex !== -1) {
+        state.posts[postIndex].likes = likes;
+      }
+    })
+    builder.addCase(postComment.fulfilled, (state, action) => {
+      const { post_id, comment } = action.payload;
+      const postIndex = state.posts.findIndex(post => post._id === post_id);
+      if (postIndex !== -1) {
+        if (!state.posts[postIndex].comments) state.posts[postIndex].comments = [];
+        state.posts[postIndex].comments.push(comment);
+      }
+    });
+
+
+
 
   },
 });

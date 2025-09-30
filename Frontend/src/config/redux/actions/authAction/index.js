@@ -1,5 +1,6 @@
 import { npmjsserver } from "@/config/axiosInstance";
 import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
+import { use } from "react";
 
 
 
@@ -53,7 +54,7 @@ export const getAboutUser = createAsyncThunk(
     try {
       console.log("Token sent to backend:", token);
       const response = await npmjsserver.get("/get_user_and_profile", {
-        params: { token }, 
+        params: { token },
       });
       return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
@@ -80,3 +81,69 @@ export const getAllUsers = createAsyncThunk(
 
 
 export const logoutUser = createAction("user/logout");
+
+
+// Send connection request
+export const SendConnectionRequest = createAsyncThunk(
+  "user/sendConnectionRequest",
+  async (user, thunkAPI) => {
+    try {
+      const response = await npmjsserver.post("/user/send_request", {
+        token: user.token,
+        connectionId: user.userId
+      });
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+// Incoming requests
+export const getConnectionRequest = createAsyncThunk(
+  "/user/get_requests",
+  async (user, thunkAPI) => {
+    try {
+      const response = await npmjsserver.get("/user/get_connection_request", {
+        params: { token: user.token }
+      });
+      return thunkAPI.fulfillWithValue(response.data.connections);
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+// Outgoing requests
+export const getMyconnections = createAsyncThunk(
+  "/user/GetConnectionRequest",
+  async (user, thunkAPI) => {
+    try {
+      const response = await npmjsserver.get("/user/user_connection_request", {
+        params: { token: user.token }
+      });
+      return thunkAPI.fulfillWithValue(response.data.connections);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+// Accept/Reject request
+export const acceptConnections = createAsyncThunk(
+  "/user/acceptConnection",
+  async (user, thunkAPI) => {
+    try {
+      const response = await npmjsserver.post("/user/accept_connection_request", {
+        token: user.token,
+        connection_id: user.connectionId,
+        action_type: user.action,
+        requestId: user.requestId
+      }); 
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  }
+);

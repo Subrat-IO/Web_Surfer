@@ -7,6 +7,9 @@ import UserLayout from "@/layout/UserLayout";
 import DashBoardLayout from "@/layout/DashBoardLayout";
 import styles from "./style.module.css";
 import { BASE_URL } from "@/config/axiosInstance";
+import { likePostAction } from "@/config/redux/actions/postAction";
+import { postComment } from "@/config/redux/actions/postAction";
+
 
 export default function Dashboard() {
     const router = useRouter();
@@ -14,6 +17,20 @@ export default function Dashboard() {
 
     const postState = useSelector((state) => state.posts);
     const authState = useSelector((state) => state.auth);
+    // Track which post's comments are open
+    const [showComments, setShowComments] = useState(null);
+
+    // Store fetched comments per post
+    const [commentsData, setCommentsData] = useState({});
+
+    // Track which post has the comment input open
+    const [activeCommentInput, setActiveCommentInput] = useState(null);
+
+    // Track which post's comments are being shown
+
+
+    // Track the text typed in the comment input
+    const [commentText, setCommentText] = useState("");
 
     const [isTokenThere, setIsTokenThere] = useState(false);
     const [fileContent, setFileContent] = useState(null);
@@ -77,6 +94,16 @@ export default function Dashboard() {
             console.error(err);
         }
     };
+    const fetchComments = async (postId) => {
+        try {
+            const res = await fetch(`${BASE_URL}/get_comments?post_id=${postId}`);
+            const data = await res.json();
+            setCommentsData((prev) => ({ ...prev, [postId]: data.comments || [] }));
+        } catch (err) {
+            console.error("Failed to fetch comments:", err);
+        }
+    };
+
 
     return (
         <UserLayout>
@@ -191,22 +218,112 @@ export default function Dashboard() {
                                             loading="lazy"
                                         />
                                     )}
-
                                     {/* Post Actions */}
                                     <div className={styles.postActions}>
-                                        <button className={styles.likeButton} aria-label="Like post">
+                                        <button
+                                            className={styles.likeButton}
+                                            aria-label="Like post"
+                                            onClick={() => {
+                                                const token = localStorage.getItem("token");
+                                                dispatch(likePostAction({ token, post_id: post._id }));
+                                            }}
+                                        >
                                             ❤️ {Array.isArray(post.likes) ? post.likes.length : post.likes || 0}
                                         </button>
-                                        <button className={styles.commentButton} aria-label="Comment on post">
-                                            💬 Comment
-                                        </button>
 
+                                        <button
+                                            className={styles.showCommentsButton}
+                                            onClick={() => {
+                                                if (showComments === post._id) {
+                                                    setShowComments(null); // close comments
+                                                } else {
+                                                    setShowComments(post._id); // open comments
+                                                    fetchComments(post._id);   // fetch from backend
+                                                }
+                                            }}
+                                        >
+                                            👁 Show Comments
+                                        </button>
                                     </div>
+
+                                    {/* Comments Overlay */}
+                                    {showComments === post._id && (
+                                        <div
+                                            className={styles.overlay}
+                                            onClick={(e) => {
+                                                if (e.target.classList.contains(styles.overlay)) {
+                                                    setShowComments(null); // close if background clicked
+                                                }
+                                            }}
+                                        >
+                                            <div className={styles.commentsBox}>
+                                                {/* Close button */}
+                                                <button
+                                                    className={styles.closeButton}
+                                                    onClick={() => setShowComments(null)}
+                                                >
+                                                    ✖
+                                                </button>
+
+                                                {/* Comments List */}
+                                                <div className={styles.commentsList}>
+                                                    {commentsData[post._id]?.length > 0 ? (
+                                                        commentsData[post._id].map((c) => (
+                                                            <div key={c._id} className={styles.singleComment}>
+                                                                <p>
+                                                                    <b>@{c.user.username}</b>: {c.body}
+                                                                </p>
+                                                            </div>
+                                                        ))
+                                                    ) : (
+                                                        <p className={styles.noComments}>No comments yet.</p>
+                                                    )}
+                                                </div>
+
+                                           {/* Input Row */}
+                                                <div className={styles.commentInputRow}>
+                                                    <textarea
+                                                        className={styles.commentInput}
+                                                        placeholder="Write a comment..."
+                                                        value={commentText}
+                                                        onChange={(e) => setCommentText(e.target.value)}
+                                                    />
+                                                    <button
+                                                        className={styles.postCommentButton}
+                                                        onClick={() => {
+                                                            if (!commentText.trim()) return;
+                                                            const token = localStorage.getItem("token");
+
+                                                            dispatch(
+                                                                postComment({
+                                                                    token,
+                                                                    post_id: post._id,
+                                                                    comment_text: commentText,
+                                                                })
+                                                            )
+                                                                .then(() => {
+                                                                    setCommentText("");
+                                                                    fetchComments(post._id); // refresh after posting
+                                                                })
+                                                                .catch((err) => console.error(err));
+                                                        }}
+                                                    >
+                                                        Post
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+
+
+
                                 </div>
+
                             ))}
                     </div>
                 </div>
             </DashBoardLayout>
-        </UserLayout>
+        </UserLayout >
     );
 }

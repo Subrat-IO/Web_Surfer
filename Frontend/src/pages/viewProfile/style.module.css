@@ -1,0 +1,202 @@
+/* Container */
+.profileContainer {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card */
+.profileCard {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+/* Banner */
+.profileBanner {
+  height: 120px;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+}
+
+/* Header */
+.profileHeader {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem 2rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* Image + button column */
+.imageColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 120px;
+}
+
+.profileImage {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+  margin-top: -60px; /* overlaps banner */
+}
+
+/* Buttons container */
+.Buttons {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1rem;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* Connection Button */
+.connectButton {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.connectButton.connect {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.connectButton.disconnect {
+  background-color: #ff4d4d;
+  color: #fff;
+}
+
+.connectButton.pending {
+  background-color: #ffa500;
+  color: #fff;
+}
+
+/* Download Resume button */
+.DownloadResume {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.DownloadResume svg {
+  width: 18px;
+  height: 18px;
+}
+
+.DownloadResume:hover {
+  transform: scale(1.05);
+}
+
+.DownloadResume p {
+  margin: 0;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Profile Info */
+.profileInfo {
+  flex: 1;
+  min-width: 200px;
+}
+
+.profileInfo h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.username {
+  margin: 0.2rem 0;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.headline {
+  margin: 0.2rem 0;
+  color: #333;
+  font-size: 1rem;
+}
+
+/* Body Sections */
+.profileBody {
+  padding: 1rem 2rem 2rem 2rem;
+}
+
+.profileSection {
+  margin-bottom: 1.5rem;
+}
+
+.profileSection h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.3rem;
+}
+
+.profileSection p,
+.profileSection li {
+  font-size: 0.95rem;
+  color: #555;
+  margin: 0.3rem 0;
+}
+
+.profileSection ul {
+  padding-left: 1.2rem;
+  margin: 0;
+}
+
+.textGray {
+  color: #888;
+  font-style: italic;
+}
+
+/* Recent Activity */
+.recentActivityList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.postItem {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.postContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.postText {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.postImage {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}

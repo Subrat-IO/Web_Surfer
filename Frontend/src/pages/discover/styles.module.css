@@ -1,0 +1,193 @@
+/* Container */
+.discoverContainer {
+  padding: 2rem;
+  min-height: 80vh;
+  background: linear-gradient(135deg, #f3e8ff, #e0f7ff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+
+/* Page Title */
+.pageTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #111827;
+}
+
+/* Loading Text */
+.loadingText {
+  text-align: center;
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+/* Grid Layout (default mobile/tablet) */
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* User Card (mobile/tablet view) */
+.userCard {
+  background: #fff;
+  padding: 1.2rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.userCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.userName {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #111827;
+}
+
+/* See Profile Button */
+.seeProfileButton {
+  padding: 0.5rem 1.2rem;
+  background: linear-gradient(135deg, #4f46e5, #3b82f6);
+  color: white;
+  font-weight: 500;
+  border: none;
+  
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.seeProfileButton:hover {
+  background: linear-gradient(135deg, #4338ca, #2563eb);
+}
+
+/* ---------- LIST VIEW FOR BIG SCREENS ---------- */
+@media (min-width: 1024px) {
+  .gridContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .userCard {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1rem;
+    text-align: left;
+    padding: 1rem 1.5rem;
+    border-radius: 0.75rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .userName {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+}
+
+/* ---------- Modal Styles ---------- */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(6px);
+}
+
+.modalContent {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 2rem;
+  border-radius: 1.25rem;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  position: relative;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  animation: fadeInScale 0.35s ease;
+}
+
+/* Entry Animation */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Close Button */
+.modalClose {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
+  font-size: 1.2rem;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0.3rem 0.6rem;
+  transition: background 0.2s;
+}
+
+.modalClose:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Modal Image */
+.modalImage {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  border: 3px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Modal Text */
+.modalName {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: #fff;
+}
+
+.modalUsername {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 0.25rem;
+}
+
+.modalEmail {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 0.5rem;
+}
+
+.modalBio {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 0.5rem;
+}

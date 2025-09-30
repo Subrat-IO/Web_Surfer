@@ -79,3 +79,54 @@ export const deletePost = createAsyncThunk(
     }
   }
 )
+
+export const likePostAction = createAsyncThunk(
+  "post/like_post",
+  async ({ token, post_id }, thunkAPI) => {
+    try {
+      const response = await fetch(`${BASE_URL}/like_post`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token, post_id }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        return thunkAPI.rejectWithValue(errorData.message || "Failed to like post");
+      }
+
+      const data = await response.json();
+      return data; // { post_id, likes }
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  }
+);
+
+
+export const postComment = createAsyncThunk(
+  "post/add_comment",
+  async ({ token, post_id, comment_text }, thunkAPI) => {
+    try {
+      const response = await fetch(`${BASE_URL}/add_comment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token, post_id, commentBody: comment_text }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        return thunkAPI.rejectWithValue(errorData.message || "Failed to post comment");
+      }
+
+      const data = await response.json();
+      return { post_id, comment: data.comment };
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  }
+);

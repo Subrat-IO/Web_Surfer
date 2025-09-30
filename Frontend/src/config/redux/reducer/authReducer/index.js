@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAboutUser, getAllUsers, loginUser, registerUser, logoutUser } from "@/config/redux/actions/authAction";
+import { getAboutUser, getAllUsers, loginUser, registerUser, logoutUser, getConnectionRequest, getMyconnections } from "@/config/redux/actions/authAction";
 import { act } from "react";
 
 const initialState = {
@@ -113,7 +113,23 @@ const authSlice = createSlice({
         state.isError = false;
         state.isSuccess = false;
         state.message = "Logged out successfully";
-      });
+      })
+      .addCase(getConnectionRequest.fulfilled,(state,action)=>{
+        // incoming requests to the logged-in user
+        state.connections = action.payload
+      })
+      .addCase(getConnectionRequest.rejected,(state, action)=>{
+        state.message = action.payload
+      })
+      .addCase(getMyconnections.fulfilled,(state,action)=>{
+        // outgoing requests from the logged-in user
+        state.connectionRequest= action.payload
+      })
+      .addCase(getMyconnections.rejected,(state,action)=>{
+        state.message = action.payload
+      })
+
+
 
   },
 });

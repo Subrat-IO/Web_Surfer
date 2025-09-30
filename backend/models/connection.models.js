@@ -5,10 +5,9 @@ const connectionRequestSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },
-    connectionID: {
+    connectionId: {  // <-- lowercase 'd' to match backend/frontend
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-
     },
     status_accepted: {
         type: Boolean,
@@ -16,7 +15,6 @@ const connectionRequestSchema = new mongoose.Schema({
     }
 });
 
-
 const connectionRequest = mongoose.model("connectionRequest", connectionRequestSchema);
 
-export  default connectionRequest;
+export default connectionRequest;

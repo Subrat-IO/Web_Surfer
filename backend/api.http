@@ -1,8 +1,10 @@
 ## Update Profile
-POST   http://localhost:9090/login
+POST   http://localhost:9090/update_profile_data
 Content-Type: application/json
 
 {
+    "token":"5bad788db690e8484dafdf9696ae4d2be5742a023e497fa0b934813304fcc62a",
+    "bio":"Hey I am Subrat ",
 "email":"subratsethi501@gmail.com",
 "password":"password"
 }

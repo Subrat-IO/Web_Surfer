@@ -1,0 +1,57 @@
+.profileContainer {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.header {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.profilePic {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+}
+
+.userInfo h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.userInfo p {
+  margin: 0.2rem 0;
+  color: #555;
+}
+
+.details {
+  margin-top: 1rem;
+}
+
+.stats {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.stats div {
+  text-align: center;
+}
+
+.stats h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.loading {
+  text-align: center;
+  margin-top: 3rem;
+}

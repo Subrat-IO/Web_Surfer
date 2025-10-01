@@ -366,7 +366,7 @@ export const sendRequest = async (req, res) => {
 
 // Incoming Requests
 export const getmyconnectionRequest = async (req, res) => {
-  const { token } = req.body;
+  const { token } = req.query;
   try {
     const user = await User.findOne({ token });
     if (!user) return res.status(404).json({ message: "User not found" });
@@ -400,12 +400,12 @@ export const whatAreMyconnections = async (req, res) => {
 
 // Accept/Reject Request
 export const acceptConnectionRequest = async (req, res) => {
-  const { token, requestId, action_type } = req.body;
+  const { token, connectionId, action_type } = req.body;
   try {
     const user = await User.findOne({ token });
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    const connection = await connectionRequest.findById(requestId);
+    const connection = await connectionRequest.findById(connectionId);
     if (!connection) return res.status(404).json({ message: "Connection request not found" });
 
     if (action_type === "accept") connection.status_accepted = true;
@@ -417,6 +417,35 @@ export const acceptConnectionRequest = async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 };
+
+
+// 🗑️ Delete accepted connection
+// 🗑️ Delete accepted or pending connection (FIXED)
+export const deleteConnection = async (req, res) => {
+  const { token, connectionId } = req.body;
+  try {
+    const user = await User.findOne({ token });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // 🧠 Delete any connection where either side matches user & connectionId
+    const connection = await connectionRequest.findOneAndDelete({
+      $or: [
+        { userId: user._id, connectionId: connectionId },
+        { userId: connectionId, connectionId: user._id },
+      ],
+    });
+
+    if (!connection) {
+      return res.status(404).json({ message: "Connection not found" });
+    }
+
+    return res.json({ message: "Connection removed successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+
 
 export const getUserProfileFromUserName = async (req,res) =>{
   const {username} = req.query;

@@ -63,7 +63,9 @@ function NavbarComponent() {
             >
               Hey, {authState.users?.userId?.name || "User"}
             </p>
-            <p
+            <p className={styles.ViewProfilePage} onClick={()=>{
+              router.push('/MyProfile')
+            }}
               style={{ margin: 0, fontSize: "0.9rem", color: "#555" }}
             >
               Your Profile

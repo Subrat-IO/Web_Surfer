@@ -83,14 +83,14 @@ export const getAllUsers = createAsyncThunk(
 export const logoutUser = createAction("user/logout");
 
 
-// Send connection request
+// ✅ Send connection request
 export const SendConnectionRequest = createAsyncThunk(
   "user/sendConnectionRequest",
   async (user, thunkAPI) => {
     try {
       const response = await npmjsserver.post("/user/send_request", {
         token: user.token,
-        connectionId: user.userId
+        connectionId: user.userId,
       });
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
@@ -99,29 +99,28 @@ export const SendConnectionRequest = createAsyncThunk(
   }
 );
 
-// Incoming requests
+// ✅ Get incoming requests
 export const getConnectionRequest = createAsyncThunk(
   "/user/get_requests",
   async (user, thunkAPI) => {
     try {
       const response = await npmjsserver.get("/user/get_connection_request", {
-        params: { token: user.token }
+        params: { token: user.token },
       });
       return thunkAPI.fulfillWithValue(response.data.connections);
     } catch (error) {
-      console.log(error);
       return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
 );
 
-// Outgoing requests
+// ✅ Get my connections (incoming + outgoing)
 export const getMyconnections = createAsyncThunk(
   "/user/GetConnectionRequest",
   async (user, thunkAPI) => {
     try {
       const response = await npmjsserver.get("/user/user_connection_request", {
-        params: { token: user.token }
+        params: { token: user.token },
       });
       return thunkAPI.fulfillWithValue(response.data.connections);
     } catch (error) {
@@ -130,20 +129,53 @@ export const getMyconnections = createAsyncThunk(
   }
 );
 
-// Accept/Reject request
+// ✅ Accept or reject request
 export const acceptConnections = createAsyncThunk(
   "/user/acceptConnection",
   async (user, thunkAPI) => {
     try {
       const response = await npmjsserver.post("/user/accept_connection_request", {
         token: user.token,
+        requestId: user.requestId,
         connection_id: user.connectionId,
         action_type: user.action,
-        requestId: user.requestId
-      }); 
-      return thunkAPI.fulfillWithValue(response.data);
+      });
+
+      // If rejected → also delete from backend
+      if (user.action === "reject") {
+        await npmjsserver.post("/user/delete_connection", {
+          token: user.token,
+          requestId: user.requestId,
+          connectionId: user.connectionId,
+        });
+      }
+
+      return thunkAPI.fulfillWithValue({
+        ...response.data,
+        action: user.action,
+        requestId: user.requestId,
+      });
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Error");
+    }
+  }
+);
+
+// ✅ Delete connection (for cancel or remove)
+export const deleteConnection = createAsyncThunk(
+  "/user/deleteConnection",
+  async (user, thunkAPI) => {
+    try {
+      const response = await npmjsserver.post("/user/delete_connection", {
+        token: user.token,
+        connectionId: user.connectionId,
+      });
+      return thunkAPI.fulfillWithValue({
+        ...response.data,
+        requestId: user.requestId,
+      });
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Error");
     }
   }
 );

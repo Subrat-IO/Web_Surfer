@@ -1,0 +1,112 @@
+/* Container */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 16px;
+}
+
+/* Page title */
+.pageTitle {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+/* Section title */
+.sectionTitle {
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Section colors */
+.greenText { color: #16a34a; }
+.yellowText { color: #ca8a04; }
+.blueText { color: #1d4ed8; }
+
+/* Card */
+.card {
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+  margin-bottom: 12px;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* Card content */
+.cardContent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Profile picture */
+.profilePic {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+}
+
+/* User info */
+.userInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.userInfo h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.userInfo p {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* Buttons */
+.buttonGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: none;
+}
+
+.button:hover {
+  transform: scale(1.05);
+}
+
+/* Button colors */
+.red { background-color: #dc2626; color: white; }
+.green { background-color: #16a34a; color: white; }
+
+/* Card themes */
+.accepted { background-color: #ecfdf5; border: 1px solid #bbf7d0; }
+.incoming { background-color: #fffbeb; border: 1px solid #fde68a; }
+.sent { background-color: #eff6ff; border: 1px solid #bfdbfe; }
+
+/* Empty text */
+.emptyText {
+  color: #6b7280;
+  font-style: italic;
+}

@@ -11,6 +11,7 @@ import connectionRequest from "../models/connection.models.js";
 import { request } from "http";
 
 import express from 'express';
+import { connections } from "mongoose";
 const app = express();
 
 // This is mandatory to parse JSON body
@@ -367,16 +368,20 @@ export const sendRequest = async (req, res) => {
 // Incoming Requests
 export const getmyconnectionRequest = async (req, res) => {
   const { token } = req.query;
+
   try {
+    // Find the user by token
     const user = await User.findOne({ token });
     if (!user) return res.status(404).json({ message: "User not found" });
 
+    // Find all connection requests where this user is the receiver and not yet accepted
     const connections = await connectionRequest
-      .find({ connectionId: user._id })
-      .populate("userId", "name username email profilePicture status_accepted");
+      .find({ connectionId: user._id, status_accepted: false })
+      .populate("userId", "name username email profilePicture"); // populate sender info
 
     return res.json({ connections });
   } catch (error) {
+    console.error("Error in getmyconnectionRequest:", error);
     return res.status(500).json({ message: error.message });
   }
 };
@@ -400,23 +405,37 @@ export const whatAreMyconnections = async (req, res) => {
 
 // Accept/Reject Request
 export const acceptConnectionRequest = async (req, res) => {
-  const { token, connectionId, action_type } = req.body;
+  const { token, requestId, action_type } = req.body;
+
   try {
+    // Find the logged-in user by token
     const user = await User.findOne({ token });
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    const connection = await connectionRequest.findById(connectionId);
-    if (!connection) return res.status(404).json({ message: "Connection request not found" });
+    // Find the connection request document by its _id
+    const connection = await connectionRequest.findById(requestId);
+    if (!connection)
+      return res.status(404).json({ message: "Connection request not found" });
 
+    // Check if the logged-in user is the recipient of this request
+    if (connection.connectionId.toString() !== user._id.toString()) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to accept/reject this request" });
+    }
+
+    // Update the status based on action_type
     if (action_type === "accept") connection.status_accepted = true;
     else if (action_type === "reject") connection.status_accepted = false;
 
     await connection.save();
-    return res.json({ message: "Request updated", connection });
+
+    return res.json({ message: "Request updated successfully", connection });
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
 };
+
 
 
 // 🗑️ Delete accepted connection

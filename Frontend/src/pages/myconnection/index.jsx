@@ -1,213 +1,131 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { BASE_URL } from "@/config/axiosInstance";
-import styles from "./style.module.css";
-import {
-  getMyconnections,
-  getConnectionRequest,
-  acceptConnections,
-  deleteConnection,
-  getAboutUser,
-} from "@/config/redux/actions/authAction";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import DashBoardLayout from "@/layout/DashBoardLayout";
 import UserLayout from "@/layout/UserLayout";
+import {
+  getConnectionRequest,
+  getMyconnections,
+  acceptConnections,
+  deleteConnection,
+} from "@/config/redux/actions/authAction";
 
-function MyConnectionPage() {
+export default function MyConnectionPage() {
   const dispatch = useDispatch();
-  const authState = useSelector((state) => state.auth);
-  const [token, setToken] = useState(null);
 
-  const loggedInUserId = authState?.users?._id;
+  const { allConnections, token } = useSelector((state) => state.auth);
 
-  // ✅ Read token
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const t = localStorage.getItem("token");
-      setToken(t);
-      if (t) {
-        dispatch(getAboutUser({ token: t }));
-        dispatch(getMyconnections({ token: t }));
-        dispatch(getConnectionRequest({ token: t }));
-      }
+    if (token) {
+      dispatch(getConnectionRequest({ token }));
+      dispatch(getMyconnections({ token }));
     }
-  }, [dispatch]);
+  }, [dispatch, token]);
 
-  const allConnections = authState?.allConnections || [];
-
-  // Normalize userId and connectionId for consistent access
-  const normalizedConnections = allConnections.map((c) => ({
-    ...c,
-    userId: typeof c.userId === "string" ? c.userId : c.userId?._id,
-    connectionId:
-      typeof c.connectionId === "string"
-        ? c.connectionId
-        : c.connectionId?._id || c.connectionId,
-  }));
-
-  // Split categories
-  const acceptedConnections = normalizedConnections.filter(
-    (c) => c.status_accepted === true
-  );
-  const incomingRequests = normalizedConnections.filter(
-    (c) => !c.status_accepted && c.connectionId === loggedInUserId
-  );
-  const sentRequests = normalizedConnections.filter(
-    (c) => !c.status_accepted && c.userId === loggedInUserId
-  );
-
-  // Handlers
-  const handleAccept = (conn) => {
+  const handleAcceptReject = (connection, action) => {
     dispatch(
       acceptConnections({
         token,
-        requestId: conn._id,
-        connectionId: conn.userId,
-        action: "accept",
+        requestId: connection._id,
+        connectionId: connection.connectionId || connection.userId._id,
+        action,
       })
     );
   };
 
-  const handleReject = (conn, type) => {
+  const handleDelete = (connection) => {
     dispatch(
       deleteConnection({
         token,
-        requestId: conn._id,
-        connectionId: type === "incoming" ? conn.userId : conn.connectionId,
-        action: "reject",
+        connectionId: connection.connectionId || connection.userId._id,
+        requestId: connection._id,
       })
-    );
-  };
-
-  const handleRemoveConnection = (conn) => {
-    dispatch(
-      deleteConnection({
-        token,
-        connectionId: conn.connectionId || conn.userId,
-      })
-    );
-  };
-
-  // Connection card
-  const ConnectionCard = ({ conn, type }) => {
-    const name =
-      conn.connectionIdName || conn.connectionId?.name || conn.userId?.name;
-    const username =
-      conn.connectionIdUsername ||
-      conn.connectionId?.username ||
-      conn.userId?.username;
-    const profilePic =
-      conn.connectionIdProfile ||
-      conn.connectionId?.profilePicture ||
-      conn.userId?.profilePicture ||
-      `${BASE_URL}/uploads/default.jpg`;
-
-    return (
-      <div
-        className={`${styles.card} ${
-          type === "accepted"
-            ? styles.accepted
-            : type === "incoming"
-            ? styles.incoming
-            : styles.sent
-        }`}
-      >
-        <div className={styles.cardContent}>
-          <img src={profilePic} alt="profile" className={styles.profilePic} />
-          <div className={styles.userInfo}>
-            <h3>{name}</h3>
-            <p>@{username}</p>
-          </div>
-        </div>
-
-        <div className={styles.buttonGroup}>
-          {type === "accepted" && (
-            <button
-              onClick={() => handleRemoveConnection(conn)}
-              className={`${styles.button} ${styles.red}`}
-            >
-              Remove 🗑️
-            </button>
-          )}
-          {type === "incoming" && (
-            <>
-              <button
-                onClick={() => handleAccept(conn)}
-                className={`${styles.button} ${styles.green}`}
-              >
-                Accept ✅
-              </button>
-              <button
-                onClick={() => handleReject(conn, "incoming")}
-                className={`${styles.button} ${styles.red}`}
-              >
-                Reject ❌
-              </button>
-            </>
-          )}
-          {type === "sent" && (
-            <button
-              onClick={() => handleReject(conn, "sent")}
-              className={`${styles.button} ${styles.red}`}
-            >
-              Cancel ❌
-            </button>
-          )}
-        </div>
-      </div>
     );
   };
 
   return (
     <UserLayout>
       <DashBoardLayout>
-        <div className={styles.container}>
-          <h1 className={styles.pageTitle}>My Connections</h1>
+        <div style={{ padding: "20px" }}>
+          <h2>My Connections</h2>
+          {allConnections.length === 0 && <p>No connections found.</p>}
+          <div>
+            {allConnections.map((conn) => {
+              const isIncoming = !conn.status_accepted && conn.connectionId === token;
+              const user = conn.userId || conn.connectionId;
 
-          {/* Accepted */}
-          <section>
-            <h2 className={`${styles.sectionTitle} ${styles.greenText}`}>
-              ✅ My Connections
-            </h2>
-            {acceptedConnections.length > 0 ? (
-              acceptedConnections.map((c) => (
-                <ConnectionCard key={c._id} conn={c} type="accepted" />
-              ))
-            ) : (
-              <p className={styles.emptyText}>No connections yet.</p>
-            )}
-          </section>
-
-          {/* Incoming */}
-          <section>
-            <h2 className={`${styles.sectionTitle} ${styles.yellowText}`}>
-              📬 Incoming Requests
-            </h2>
-            {incomingRequests.length > 0 ? (
-              incomingRequests.map((c) => (
-                <ConnectionCard key={c._id} conn={c} type="incoming" />
-              ))
-            ) : (
-              <p className={styles.emptyText}>No incoming requests.</p>
-            )}
-          </section>
-
-          {/* Sent */}
-          <section>
-            <h2 className={`${styles.sectionTitle} ${styles.blueText}`}>
-              📤 Sent Requests
-            </h2>
-            {sentRequests.length > 0 ? (
-              sentRequests.map((c) => (
-                <ConnectionCard key={c._id} conn={c} type="sent" />
-              ))
-            ) : (
-              <p className={styles.emptyText}>No sent requests.</p>
-            )}
-          </section>
+              return (
+                <div
+                  key={conn._id}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    border: "1px solid #ccc",
+                    borderRadius: "8px",
+                    padding: "10px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <div>
+                    <p>
+                      <strong>Name:</strong> {user.name}
+                    </p>
+                    <p>
+                      <strong>Username:</strong> {user.username}
+                    </p>
+                    <p>
+                      <strong>Email:</strong> {user.email}
+                    </p>
+                    <p>
+                      <strong>Status:</strong>{" "}
+                      {conn.status_accepted ? "Accepted" : "Pending"}
+                    </p>
+                  </div>
+                  <div style={{ display: "flex", gap: "10px" }}>
+                    {!conn.status_accepted && conn.userId && (
+                      <>
+                        <button
+                          onClick={() => handleAcceptReject(conn, "accept")}
+                          style={{
+                            padding: "5px 10px",
+                            backgroundColor: "green",
+                            color: "#fff",
+                            borderRadius: "4px",
+                          }}
+                        >
+                          Accept
+                        </button>
+                        <button
+                          onClick={() => handleAcceptReject(conn, "reject")}
+                          style={{
+                            padding: "5px 10px",
+                            backgroundColor: "red",
+                            color: "#fff",
+                            borderRadius: "4px",
+                          }}
+                        >
+                          Reject
+                        </button>
+                      </>
+                    )}
+                    <button
+                      onClick={() => handleDelete(conn)}
+                      style={{
+                        padding: "5px 10px",
+                        backgroundColor: "gray",
+                        color: "#fff",
+                        borderRadius: "4px",
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </DashBoardLayout>
     </UserLayout>
   );
 }
-
-export default MyConnectionPage;

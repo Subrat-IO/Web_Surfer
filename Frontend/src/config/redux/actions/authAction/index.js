@@ -120,11 +120,11 @@ export const getMyconnections = createAsyncThunk(
   async (user, thunkAPI) => {
     try {
       const response = await npmjsserver.get("/user/user_connection_request", {
-        params: { token: user.token },
+        params: { token: user.token, userId: user._id },
       });
-      return thunkAPI.fulfillWithValue(response.data.connections);
+      return thunkAPI.fulfillWithValue(response.data.connections || []);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to fetch connections");
     }
   }
 );

@@ -28,54 +28,40 @@ export const getPostById = createAsyncThunk(
     }
   }
 );
+export const createPost = (formData) => async (dispatch) => {
+  try {
+    const res = await npmjsserver.post("/post", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
-export const createPost = createAsyncThunk(
-  "post/createPost",
-  async ({ file, body }, thunkAPI) => {
-    try {
-      const formData = new FormData();
-      formData.append("token", localStorage.getItem("token"));
-      formData.append("body", body);
-      if (file) {
-        formData.append("media", file); // <-- check if backend expects "media"
-      }
-
-      const response = await npmjsserver.post("/post", formData, {
-        headers: {
-          // ❌ Don't set Content-Type manually
-        },
-      });
-
-      if (response.status === 200) {
-        return thunkAPI.fulfillWithValue("post uploaded");
-      } else {
-        return thunkAPI.rejectWithValue("post upload unsuccessful");
-      }
-    } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data || "Something went wrong"
-      );
-    }
+    dispatch({ type: "CREATE_POST_SUCCESS", payload: res.data.post });
+    return res.data;
+  } catch (err) {
+    dispatch({ type: "CREATE_POST_FAIL", payload: err.response?.data?.message });
+    throw err;
   }
-);
+};
+
 
 export const deletePost = createAsyncThunk(
   "post/deletePost",
-  async(post_id,thunkAPI)=>{
+  async (post_id, thunkAPI) => {
     try {
-      const response = await npmjsserver.delete("/delete_post",{
-        data:{
-          token:localStorage.getItem("token"),
-          post_id:post_id.post_id
+      const response = await npmjsserver.delete("/delete_post", {
+        data: {
+          token: localStorage.getItem("token"),
+          post_id: post_id.post_id
         }
       });
-        return thunkAPI.fulfillWithValue(response.data) 
-      
-    } catch (error) {
-      
-      return thunkAPI.rejectWithValue("invalid Data");1
+      return thunkAPI.fulfillWithValue(response.data)
 
-    
+    } catch (error) {
+
+      return thunkAPI.rejectWithValue("invalid Data"); 1
+
+
     }
   }
 )

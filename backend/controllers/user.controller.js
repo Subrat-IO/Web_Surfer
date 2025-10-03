@@ -89,43 +89,42 @@ export const convertUserDataTOPDF = (userData) => {
 
 
 
-
 export const register = async (req, res) => {
   try {
     const { name, email, username, password } = req.body;
 
     if (!name || !email || !password || !username) {
-      // Send status + message safely
-      res.status(400);
-      return res.json({ message: "All fields required to be filled" });
+      return res.status(400).json({ message: "All fields required" });
     }
 
     const user = await User.findOne({ email });
-    if (user) {
-      res.status(400);
-      return res.json({ message: "User Already Exists" });
-    }
+    if (user) return res.status(400).json({ message: "User already exists" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
       name,
       email,
-      password: hashedPassword,
       username,
+      password: hashedPassword,
       profilepicture: "default.jpg",
     });
+
+    // Generate token on registration
+    const token = crypto.randomBytes(32).toString("hex");
+    newUser.token = token;
 
     await newUser.save();
 
     const profile = new Profile({ userId: newUser._id });
     await profile.save();
 
-    // Success
-    res.status(201);
-    return res.json({ message: "User Registered Successfully" });
+    return res.status(201).json({
+      message: "User registered successfully",
+      token,
+      user: newUser, // send user object
+    });
   } catch (err) {
-    res.status(500);
-    return res.json({ message: err.message });
+    return res.status(500).json({ message: err.message });
   }
 };
 

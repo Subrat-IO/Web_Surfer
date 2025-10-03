@@ -70,6 +70,7 @@
           state.isLoading = false;
           state.isSuccess = true;
           state.loggedIn = true;
+          state.isTokenThere = true;
           state.users = action.payload?.user || null;
           state.token = action.payload?.token || null;
           if (typeof window !== "undefined" && action.payload?.token)

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const BASE_URL = process.env.REACT_APP_API_URL || "https://web-surfer.onrender.com";
+export const BASE_URL =  "http://localhost:9090";
 
 export const npmjsserver = axios.create({
   baseURL: BASE_URL,

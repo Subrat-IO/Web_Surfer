@@ -70,17 +70,28 @@ export default function Dashboard() {
         return <div>Loading user data...</div>;
     }
 
-    // Create Post
-    const handleUpload = () => {
-        if (!postContent.trim() && !fileContent) return;
+    const handleUpload = async () => {
+    if (!postContent.trim() && !fileContent) return;
 
-        const token = localStorage.getItem("token");
-        dispatch(createPost({ token, file: fileContent, body: postContent }))
-            .then(() => dispatch(getAllPosts()));
+    const token = localStorage.getItem("token");
+    const formData = new FormData();
 
+    if (postContent.trim()) formData.append("body", postContent);
+    if (fileContent) formData.append("media", fileContent);
+
+    // Append token if your backend needs it in body
+    formData.append("token", token);
+
+    try {
+        await dispatch(createPost(formData));
+        dispatch(getAllPosts());
         setPostContent("");
         setFileContent(null);
-    };
+    } catch (err) {
+        console.error("Failed to create post:", err);
+    }
+};
+
 
     // Delete Post
     const handleDelete = async (postId) => {

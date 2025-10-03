@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 
 const PostSchema = mongoose.Schema({
     userId: {
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'User',
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
     },
     body: {
         type: String,
@@ -26,17 +26,19 @@ const PostSchema = mongoose.Schema({
     media: {
 
         type: String,
-        default:''
+        default: ''
     },
     active: {
-        type:Boolean,
-        default:true
+        type: Boolean,
+        default: true
     },
     fileType: {
-        type:String,
-        default:''
-
+        type: String,
+        default: ''
     },
+
+
+
 
 });
 

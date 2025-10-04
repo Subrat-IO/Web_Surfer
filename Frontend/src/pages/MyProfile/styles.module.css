@@ -1,57 +1,239 @@
-.profileContainer {
-  max-width: 800px;
+/* === Container === */
+.pfContainer {
+  max-width: 900px;
   margin: 2rem auto;
   padding: 1rem;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-size: 300% 300%;
+  animation: bgAnimate 12s ease infinite;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
 }
 
-.header {
+/* === Card === */
+.pfCard {
+  background: rgba(255,255,255,0.95);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pfCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 50px rgba(0,0,0,0.25);
+}
+
+/* === Banner === */
+.pfBanner {
+  height: 140px;
+  background: linear-gradient(135deg, #6a11cb, #2575fc, #0a66c2);
+  background-size: 200% 200%;
+  animation: bgAnimate 10s ease infinite;
+  border-bottom: 4px solid rgba(255,255,255,0.4);
+}
+
+/* === Header === */
+.pfHeader {
   display: flex;
   gap: 1.5rem;
-  align-items: center;
-  margin-bottom: 1.5rem;
+  padding: 1rem 2rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
 }
 
-.profilePic {
+/* === Image Column === */
+.pfImageCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 120px;
+}
+
+.pfAvatar {
   width: 120px;
   height: 120px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #ddd;
+  border: 4px solid #fff;
+  margin-top: -60px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
 }
 
-.userInfo h1 {
+.pfAvatar:hover {
+  transform: scale(1.08);
+}
+
+/* === Buttons === */
+.pfButtons {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.pfBtn {
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: none;
+  color: #fff;
+}
+
+.pfBtn.connect {
+  background-color: #4caf50;
+}
+
+.pfBtn.disconnect {
+  background-color: #f44336;
+}
+
+.pfBtn.pending {
+  background-color: #ff9800;
+}
+
+.pfResumeBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  font-weight: 500;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.pfResumeBtn:hover {
+  transform: scale(1.05);
+}
+
+.pfResumeBtn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.pfResumeBtn p {
+  margin: 0;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* === Profile Info === */
+.pfInfo {
+  flex: 1;
+  min-width: 200px;
+}
+
+.pfInfo h1 {
   margin: 0;
   font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a237e;
 }
 
-.userInfo p {
+.pfUsername {
   margin: 0.2rem 0;
   color: #555;
+  font-size: 1rem;
 }
 
-.details {
-  margin-top: 1rem;
+.pfHeadline {
+  margin: 0.2rem 0;
+  color: #0a66c2;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
-.stats {
-  display: flex;
-  gap: 2rem;
-  margin-top: 2rem;
+/* === Profile Body === */
+.pfBody {
+  padding: 1rem 2rem 2rem 2rem;
 }
 
-.stats div {
-  text-align: center;
+.pfSection {
+  margin-bottom: 1.5rem;
 }
 
-.stats h3 {
+.pfSection h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1.15rem;
+  color: #0a66c2;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.3rem;
+}
+
+.pfSection p,
+.pfSection li {
+  font-size: 0.95rem;
+  color: #555;
+  margin: 0.3rem 0;
+}
+
+.pfSection ul {
+  padding-left: 1.2rem;
   margin: 0;
-  font-size: 1.5rem;
 }
 
-.loading {
-  text-align: center;
-  margin-top: 3rem;
+.pfTextGray {
+  color: #888;
+  font-style: italic;
+}
+
+/* === Recent Activity === */
+.pfRecentList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pfPost {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background: linear-gradient(135deg, #e3f2fd, #f5f9ff);
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pfPost:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.pfPostContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pfPostText {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.pfPostImage {
+  max-width: 100%;
+  border-radius: 8px;
+  height: auto;
+}
+
+/* === Animations === */
+@keyframes bgAnimate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* === Responsive === */
+@media (max-width: 480px) {
+  .pfHeader { flex-direction: column; align-items: center; gap: 1rem; }
+  .pfInfo h1 { font-size: 1.5rem; }
+  .pfBody { padding: 1rem; }
 }

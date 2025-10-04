@@ -237,3 +237,38 @@
   .pfInfo h1 { font-size: 1.5rem; }
   .pfBody { padding: 1rem; }
 }
+/* === Name + Edit Button Container === */
+.pfNameEdit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* push button to the far right */
+  width: 100%;
+}
+
+/* === Edit Button === */
+.editBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #e0e0e0; /* light gray background */
+  border: none;
+  border-radius: 8px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.editBtn:hover {
+  background-color: #d5d5d5;
+  transform: scale(1.05);
+}
+
+/* === Pencil Icon === */
+.editIcon {
+  width: 16px;
+  height: 16px;
+  color: #0a66c2; /* matching headline color */
+}

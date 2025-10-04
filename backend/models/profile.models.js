@@ -1,29 +1,19 @@
 import mongoose from "mongoose";
 
-const educationSchema = new mongoose.Schema({
-    school: { type: String, default: '' },
-    degree: { type: String, default: '' },
-    fieldOfStudy: { type: String, default: '' },
-});
-
-const workSchema = new mongoose.Schema({
-    company: { type: String, default: '' },
-    position: { type: String, default: '' },
-    years: { type: String, default: '' },
-});
-
-const profileSchema = new mongoose.Schema({
+const profileSchema = new mongoose.Schema(
+  {
     userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
-    bio: { type: String, default: '' },
-    currentPost: { type: String, default: '' },
-    postWork: { type: [workSchema], default: [] },
-    education: { type: [educationSchema], default: [] },
-}, { timestamps: true }); // optional: adds createdAt and updatedAt
+    bio: { type: String, default: "" },
+    currentPost: { type: String, default: "" },
+    postWork: { type: [String], default: [] }, // now array of strings
+    education: { type: [String], default: [] }, // now array of strings
+  },
+  { timestamps: true }
+);
 
-const Profile = mongoose.model('Profile', profileSchema);
-
+const Profile = mongoose.model("Profile", profileSchema);
 export default Profile;

@@ -5,10 +5,10 @@ import UserLayout from "@/layout/UserLayout";
 import DashBoardLayout from "@/layout/DashBoardLayout";
 import styles from "./styles.module.css";
 import { getMyconnections } from "@/config/redux/actions/authAction";
-
+import { useRouter } from "next/router";
 export default function MyProfilePage() {
   const dispatch = useDispatch();
-
+const router = useRouter();
   const [profile, setProfile] = useState(null);
   const [latestPost, setLatestPost] = useState(null);
   const [connections, setConnections] = useState([]);
@@ -118,7 +118,32 @@ export default function MyProfilePage() {
               </div>
 
               <div className={styles.pfInfo}>
-                <h1>{user?.name || "Your Name"}</h1>
+                <div className={styles.pfNameEdit}>
+                  <h1>{user?.name || "Your Name"}</h1>
+                  <button
+                    className={styles.editBtn}
+                    onClick={() => {
+                      router.push("/editProfile"); // React Router will handle the route
+                    }}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className={styles.editIcon}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M16.862 3.487a2.25 2.25 0 0 1 3.182 3.182l-10 10a2.25 2.25 0 0 1-1.012.584l-4 1a.75.75 0 0 1-.93-.93l1-4a2.25 2.25 0 0 1 .584-1.012l10-10z"
+                      />
+                    </svg>
+                    Edit
+                  </button>
+
+                </div>
                 <p className={styles.pfUsername}>@{user?.username || "username"}</p>
                 <p className={styles.pfHeadline}>
                   {profile?.headline || "Full Stack Developer | MERN | Open Source Enthusiast"}

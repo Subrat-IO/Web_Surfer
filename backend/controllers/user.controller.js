@@ -146,8 +146,7 @@ export const login = async (req, res) => {
       return res.json({ message: "Invalid password" });
     }
 
-    const token = crypto.randomBytes(32).toString("hex");
-    user.token = token;
+    
     await user.save();
 
     res.status(200);

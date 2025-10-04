@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "@/config/redux/actions/authAction";
-import { BASE_URL } from "@/config/axiosInstance"; // <-- make sure you have this action
+import { BASE_URL } from "@/config/axiosInstance";
 
 function NavbarComponent() {
   const router = useRouter();
   const dispatch = useDispatch();
-
   const authState = useSelector((state) => state.auth);
   const userProfile = authState?.users?.userId;
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     if (
@@ -21,86 +21,46 @@ function NavbarComponent() {
     }
   }, [authState.profilefetched, router]);
 
-
-
-
   const handleLogout = () => {
     dispatch(logoutUser());
     router.push("/login");
   };
 
-
   return (
-    <div className={styles.container}>
-      <nav className={styles.navBar}>
-        <h1
-          onClick={() => {
-            router.push("/");
-          }}
-          style={{ cursor: "pointer" }}
-        >
-          TalentMesh
-        </h1>
+    <header className={styles.navbar}>
+      <div className={styles.logo} onClick={() => router.push("/")}>
+        Talent<span>Mesh</span>
+      </div>
 
-        {authState.profilefetched ? (
+      {authState.profilefetched ? (
+        <div className={styles.profileSection}>
           <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              backgroundColor: "#f5f7fa",
-              padding: "6px 12px",
-              borderRadius: "8px",
-            }}
+            className={styles.profileContainer}
+            onClick={() => setDropdownOpen(!dropdownOpen)}
           >
             <img
               src={`${BASE_URL}/uploads/${userProfile?.profilepicture || "default.png"}`}
               alt={userProfile?.name}
               className={styles.profileImage}
             />
-            <p
-              style={{ margin: 0, fontWeight: 600, color: "#0070f3" }}
-            >
+            <span className={styles.userName}>
               Hey, {authState.users?.userId?.name || "User"}
-            </p>
-            <p className={styles.ViewProfilePage} onClick={()=>{
-              router.push('/MyProfile')
-            }}
-              style={{ margin: 0, fontSize: "0.9rem", color: "#555" }}
-            >
-              Your Profile
-            </p>
-
-
-            <button
-              onClick={handleLogout}
-              style={{
-                padding: "6px 10px",
-                border: "none",
-                borderRadius: "6px",
-                backgroundColor: "#ff4d4f",
-                color: "#fff",
-                cursor: "pointer",
-                fontWeight: 600,
-              }}
-            >
-              Logout
-            </button>
+            </span>
           </div>
-        ) : (
-          <div className={styles.navBarOptionContainer}>
-            <div
-              onClick={() => {
-                router.push("/login");
-              }}
-              className={styles.buttonJoin}
-            >
-              <p>Be a part</p>
+
+          {dropdownOpen && (
+            <div className={styles.dropdown}>
+              <p onClick={() => router.push("/MyProfile")}>Your Profile</p>
+              <p onClick={handleLogout}>Logout</p>
             </div>
-          </div>
-        )}
-      </nav>
-    </div>
+          )}
+        </div>
+      ) : (
+        <div className={styles.authButtons}>
+          <button onClick={() => router.push("/login")}>Be a part</button>
+        </div>
+      )}
+    </header>
   );
 }
 

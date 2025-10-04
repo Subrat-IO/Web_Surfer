@@ -89,6 +89,7 @@ export const convertUserDataTOPDF = (userData) => {
 
 
 
+// REGISTER
 export const register = async (req, res) => {
   try {
     const { name, email, username, password } = req.body;
@@ -97,21 +98,22 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: "All fields required" });
     }
 
-    const user = await User.findOne({ email });
-    if (user) return res.status(400).json({ message: "User already exists" });
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const token = crypto.randomBytes(32).toString("hex"); // generate only once
+
     const newUser = new User({
       name,
       email,
       username,
       password: hashedPassword,
       profilepicture: "default.jpg",
+      token, // assign token once here
     });
-
-    // Generate token on registration
-    const token = crypto.randomBytes(32).toString("hex");
-    newUser.token = token;
 
     await newUser.save();
 
@@ -121,42 +123,47 @@ export const register = async (req, res) => {
     return res.status(201).json({
       message: "User registered successfully",
       token,
-      user: newUser, // send user object
+      user: newUser,
     });
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
 };
 
-
-
+// LOGIN
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password required" });
+    }
+
     const user = await User.findOne({ email });
     if (!user) {
-      res.status(404);
-      return res.json({ message: "User does not exist" });
+      return res.status(404).json({ message: "User does not exist" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      res.status(400);
-      return res.json({ message: "Invalid password" });
+      return res.status(400).json({ message: "Invalid password" });
     }
 
-    
-    await user.save();
+    // ✅ Reuse token if it exists, else generate new one once
+    if (!user.token) {
+      user.token = crypto.randomBytes(32).toString("hex");
+      await user.save();
+    }
 
-    res.status(200);
-    return res.json({ message: "Login successful", token });
+    return res.status(200).json({
+      message: "Login successful",
+      token: user.token,
+      user,
+    });
   } catch (err) {
-    res.status(500);
-    return res.json({ message: "Server error" });
+    return res.status(500).json({ message: "Server error", error: err.message });
   }
 };
-
 
 
 

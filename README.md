@@ -21,7 +21,7 @@
 | Layer       | Technology |
 |------------|------------|
 | Frontend   | Next.js, React, CSS Modules |
-| Backend    | Node.js, Express, OpenAI API |
+| Backend    | Node.js, Express, API's|
 | Database   | MongoDB |
 | Deployment | Vercel (frontend), Render (backend) |
 | Others     | Axios, Environment Variables |
